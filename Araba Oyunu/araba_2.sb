@@ -1,0 +1,99 @@
+GraphicsWindow.Width = 600
+GraphicsWindow.Height = 400
+
+GraphicsWindow.BackgroundColor = "Green"
+GraphicsWindow.BrushColor = "Black"
+
+' Asfalt yolumuzu siyah dikdörtgen ile oluşturup merkezliyoruz
+AsfaltYol = Shapes.AddRectangle(300,400)
+Shapes.Move(AsfaltYol,150,0)
+
+' Yol çizgilerimizi ekliyoruz, yine beyaz dikdörtgen ile oluşturuyoruz
+GraphicsWindow.BrushColor = "White"
+çizgi1 = Shapes.AddRectangle(20,100)
+Shapes.Move(çizgi1,290,-75)
+çizgi2 = Shapes.AddRectangle(20,100)
+Shapes.Move(çizgi2,290,75)
+çizgi3 = Shapes.AddRectangle(20,100)
+Shapes.Move(çizgi3,290,225)
+çizgi4 = Shapes.AddRectangle(20,100)
+Shapes.Move(çizgi4,290,375)
+
+' Bilgisayarımızdaki görseli kullanarak yola arabamızı ekliyoruz
+adres = "C:\Users\hsyn\Desktop\İYC Kodlama\Araba Oyunu\mor-araba.png" 
+araba = Shapes.AddImage(adres)
+Shapes.Zoom(araba,0.1,0.1) ' Resim büyük olduğu için küçültüyoruz
+Shapes.Move(araba,Shapes.GetLeft(araba)-75,Shapes.GetTop(araba)-320) ' Arabayı ilk konumuna alıyoruz
+
+
+' Zamanlayıcımızı başlatıyoruz
+Timer.Interval = 20 '  Zaman adımlama aralığı 10 ile 100 arasında bir değer
+Timer.Tick = TikTok ' Her tik işaretinde TikTok fonksiyonunu çalıştır
+
+' Konum ilerleme miktarımız sabitliyoruz
+ilerleme = 5
+
+' Taşı ekliyoruz
+taş_adres = "C:\Users\hsyn\Desktop\İYC Kodlama\Araba Oyunu\taş.png"
+taş = Shapes.AddImage(taş_adres)
+Shapes.Zoom(taş,0.1,0.1) 
+Shapes.Move(taş,-250+Math.GetRandomNumber(250),-350)
+
+' Herbir zaman adımlamasında çağrılacak fonksiyonu yazıyoruz
+Sub TikTok
+Shapes.Move(çizgi1,Shapes.GetLeft(çizgi1),Shapes.GetTop(çizgi1)+ilerleme)
+Shapes.Move(çizgi2,Shapes.GetLeft(çizgi2),Shapes.GetTop(çizgi2)+ilerleme)
+Shapes.Move(çizgi3,Shapes.GetLeft(çizgi3),Shapes.GetTop(çizgi3)+ilerleme)
+Shapes.Move(çizgi4,Shapes.GetLeft(çizgi4),Shapes.GetTop(çizgi4)+ilerleme)
+
+  If Shapes.GetTop(çizgi4) >= 400 Then
+    Shapes.Move(çizgi4,290,-195)
+  EndIf
+
+  If Shapes.GetTop(çizgi3) >= 400 Then
+    Shapes.Move(çizgi3,290,-195)
+  EndIf
+
+  If Shapes.GetTop(çizgi2) >= 400 Then
+    Shapes.Move(çizgi2,290,-195)
+  EndIf
+
+  If Shapes.GetTop(çizgi1) >= 400 Then
+    Shapes.Move(çizgi1,290,-195)
+  EndIf
+
+  ' Taşı çizgiler gibi hareket ettiriyoruz
+  If(Shapes.GetTop(taş)>150) Then
+    Shapes.Move(taş,-250+Math.GetRandomNumber(250),-350)
+  EndIf
+  Shapes.Move(taş,Shapes.GetLeft(taş),Shapes.GetTop(taş)+ilerleme)
+EndSub
+
+
+GraphicsWindow.KeyDown = Tuşabasıldı
+Sub Tuşabasıldı
+  If GraphicsWindow.LastKey = "Left" And Shapes.GetLeft(araba) > -125Then    
+    'Shapes.Rotate(araba,-25)
+    Shapes.Animate(araba,Shapes.GetLeft(araba)-5*ilerleme,Shapes.GetTop(araba),5*Timer.Interval)
+  EndIf
+
+  If GraphicsWindow.LastKey = "Right" And Shapes.GetLeft(araba) < 125 Then    
+    'Shapes.Rotate(araba,25)
+    Shapes.Animate(araba,Shapes.GetLeft(araba)+5*ilerleme,Shapes.GetTop(araba),5*Timer.Interval)
+  EndIf
+   
+  If GraphicsWindow.LastKey = "Up" Then    
+   Shapes.Move(araba,Shapes.GetLeft(araba),Shapes.GetTop(araba)-ilerleme)
+  EndIf
+  
+ If GraphicsWindow.LastKey = "Down" Then    
+   Shapes.Move(araba,Shapes.GetLeft(araba),Shapes.GetTop(araba)+ilerleme)
+  EndIf
+  
+
+EndSub
+
+GraphicsWindow.KeyUp = Tuşbırakıldı
+Sub Tuşbırakıldı
+   Shapes.Rotate(araba,0)
+EndSub

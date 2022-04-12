@@ -1,0 +1,83 @@
+GraphicsWindow.Width = 600
+GraphicsWindow.Height = 400
+
+GraphicsWindow.BackgroundColor = "Green"
+GraphicsWindow.BrushColor = "Black"
+
+' Asfalt yolumuzu siyah dikdörtgen ile oluşturup merkezliyoruz
+AsfaltYol = Shapes.AddRectangle(300,400)
+Shapes.Move(AsfaltYol,150,0)
+
+' Yol çizgilerimizi ekliyoruz, yine beyaz dikdörtgen ile oluşturuyoruz
+GraphicsWindow.BrushColor = "White"
+çizgi1 = Shapes.AddRectangle(20,100)
+Shapes.Move(çizgi1,290,-75)
+çizgi2 = Shapes.AddRectangle(20,100)
+Shapes.Move(çizgi2,290,75)
+çizgi3 = Shapes.AddRectangle(20,100)
+Shapes.Move(çizgi3,290,225)
+çizgi4 = Shapes.AddRectangle(20,100)
+Shapes.Move(çizgi4,290,375)
+
+' Kaplumbağamızı sahneye çıkarıyoruz
+Turtle.Show()
+Turtle.PenUp()
+Turtle.X = 225
+Turtle.Y = 350
+
+' Kaplumbağa hareket ediyormuş izlenimi vermek için kronometre ile
+' yol çizgilerini kayıdıryoruz
+Timer.Interval = 100 ' 100 milisaniyede 1 Tik işareti ver
+Timer.Tick = TikTok ' Her tik işaretinde TikTok fonksiyonunu çalıştır
+
+ilerleme = 5 ' hızı bu değişkenle ayarlıyoruz
+Sub TikTok
+Shapes.Move(çizgi1,Shapes.GetLeft(çizgi1),Shapes.GetTop(çizgi1)+ilerleme)
+Shapes.Move(çizgi2,Shapes.GetLeft(çizgi2),Shapes.GetTop(çizgi2)+ilerleme)
+Shapes.Move(çizgi3,Shapes.GetLeft(çizgi3),Shapes.GetTop(çizgi3)+ilerleme)
+Shapes.Move(çizgi4,Shapes.GetLeft(çizgi4),Shapes.GetTop(çizgi4)+ilerleme)
+
+If Shapes.GetTop(çizgi4) = 400 Then
+  Shapes.Move(çizgi4,290,-195)
+EndIf
+
+If Shapes.GetTop(çizgi3) = 400 Then
+  Shapes.Move(çizgi3,290,-195)
+EndIf
+
+If Shapes.GetTop(çizgi2) = 400 Then
+  Shapes.Move(çizgi2,290,-195)
+EndIf
+
+If Shapes.GetTop(çizgi1) = 400 Then
+  Shapes.Move(çizgi1,290,-195)
+EndIf
+
+EndSub
+
+GraphicsWindow.KeyDown = Tuşabasıldı
+Sub Tuşabasıldı
+ If GraphicsWindow.LastKey = "Left" Then    
+   Turtle.TurnLeft()
+   Turtle.Move(150)
+   Turtle.TurnRight()
+  EndIf
+  
+ If GraphicsWindow.LastKey = "Right" Then    
+   Turtle.TurnRight()
+   Turtle.Move(150)
+   Turtle.TurnLeft()   
+ EndIf
+ 
+ If GraphicsWindow.LastKey = "Up" Then    
+   Turtle.Move(50)
+  EndIf
+  
+  If GraphicsWindow.LastKey = "Down" Then    
+    Turtle.TurnRight()
+    Turtle.TurnRight()
+    Turtle.Move(50)
+    Turtle.TurnLeft()
+    Turtle.TurnLeft()   
+ EndIf
+EndSub
